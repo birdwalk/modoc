@@ -9,11 +9,11 @@
     "packages/ui"
   ],
   "scripts": {
-    "dev:web": "npm.cmd --workspace apps/web run dev",
-    "build": "npm.cmd --workspace apps/web run build",
-    "test:web": "npm.cmd --workspace apps/web run test",
-    "lint": "npm.cmd --workspace apps/web run lint"
-  },
+  "dev:web": "npm --workspace apps/web run dev",
+  "build": "npm --workspace apps/web run build",
+  "test:web": "npm --workspace apps/web run test",
+  "lint": "npm --workspace apps/web run lint"
+},
   "engines": {
     "node": ">=20"
   }
