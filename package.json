@@ -1,0 +1,20 @@
+{
+  "name": "modeldoctor",
+  "private": true,
+  "version": "0.1.0",
+  "description": "MODOC - Diagnose. Repair. Ready.",
+  "workspaces": [
+    "apps/web",
+    "packages/shared-types",
+    "packages/ui"
+  ],
+  "scripts": {
+    "dev:web": "npm.cmd --workspace apps/web run dev",
+    "build": "npm.cmd --workspace apps/web run build",
+    "test:web": "npm.cmd --workspace apps/web run test",
+    "lint": "npm.cmd --workspace apps/web run lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

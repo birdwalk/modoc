@@ -1,0 +1,1080 @@
+{
+  "runs": {
+    "multi-defect-demo": {
+      "id": "demo-multi-defect-run",
+      "model_id": "demo-multi-defect-model",
+      "version_id": "demo-multi-defect-version",
+      "intended_use": "cnc",
+      "status": "COMPLETED",
+      "metrics": {
+        "filename": "multi-defect-demo.stl",
+        "format": "STL",
+        "units": null,
+        "vertex_count": 17,
+        "edge_count": 37,
+        "face_count": 25,
+        "shell_count": 3,
+        "bounding_box": {
+          "min": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "max": {
+            "x": 1.46,
+            "y": 1.46,
+            "z": 1.46
+          },
+          "size": {
+            "x": 1.46,
+            "y": 1.46,
+            "z": 1.46
+          }
+        },
+        "watertight": false,
+        "volume": null,
+        "surface_area": 6.0216,
+        "geometry_hash": "9212711553d2a5f0b8f32bc35535779f4be207d78681c8a214f4beca93d27812",
+        "estimated_file_complexity": "small",
+        "preview_simplified": false,
+        "parser": "native-stl",
+        "parser_version": "modeldoctor-native-0.1"
+      },
+      "issues": [
+        {
+          "id": "issue-001",
+          "rule_id": "DUPLICATE_FACES",
+          "rule_name": "Duplicate faces",
+          "category": "topology",
+          "severity": "LOW",
+          "summary": "3 duplicate face entries were detected.",
+          "technical_explanation": "Duplicate faces can cause z-fighting and confuse slicers or renderers.",
+          "plain_language_explanation": "The same surface is drawn more than once in the same position.",
+          "workflow_impact": "In rendering it can flicker as z-fighting; in printing it can confuse slicing and create rough toolpaths.",
+          "recommended_action": "Safe to remove repeated faces.",
+          "affected": {
+            "face_indices": [
+              0,
+              10,
+              24
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 3,
+          "confidence": 0.95,
+          "automatic_repair_available": true,
+          "repair_risk": "SAFE",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              0,
+              10,
+              24
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": false
+        },
+        {
+          "id": "issue-002",
+          "rule_id": "DEGENERATE_TRIANGLES",
+          "rule_name": "Degenerate triangles",
+          "category": "surface_quality",
+          "severity": "LOW",
+          "summary": "1 zero-area or collapsed triangles were found.",
+          "technical_explanation": "Degenerate faces have no meaningful surface area and may break normals, volume and repair operations.",
+          "plain_language_explanation": "Some triangles have collapsed into a line or a point, so they no longer describe a real surface.",
+          "workflow_impact": "This can break normals, create black shading, and make slicers produce strange pauses or blobs.",
+          "recommended_action": "Safe to remove collapsed faces.",
+          "affected": {
+            "face_indices": [
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 1,
+          "confidence": 0.95,
+          "automatic_repair_available": true,
+          "repair_risk": "SAFE",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": false
+        },
+        {
+          "id": "issue-003",
+          "rule_id": "BOUNDARY_EDGES",
+          "rule_name": "Boundary edges / open holes",
+          "category": "watertightness",
+          "severity": "HIGH",
+          "summary": "5 boundary edges indicate open mesh regions.",
+          "technical_explanation": "A watertight solid should have every edge shared by exactly two faces. Boundary edges usually mean holes or open surfaces. MODOC only closes small planar loops automatically; complex openings require review.",
+          "plain_language_explanation": "The mesh has open edges, which usually means a hole or an unclosed surface.",
+          "workflow_impact": "For 3D printing, open holes can stop the slicer from knowing inside versus outside; that may create missing layers, messy infill, or nozzle dwell that leaves blobs.",
+          "recommended_action": "MODOC can close small simple holes automatically; complex openings need approval.",
+          "affected": {
+            "face_indices": [],
+            "edge_indices": [
+              [
+                4,
+                5
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                6,
+                7
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                16,
+                16
+              ]
+            ],
+            "vertex_indices": [
+              4,
+              5,
+              6,
+              7,
+              16
+            ],
+            "bounding_region": null
+          },
+          "occurrence_count": 5,
+          "confidence": 0.72,
+          "automatic_repair_available": true,
+          "repair_risk": "LOW_RISK",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [],
+            "edges": [
+              [
+                4,
+                5
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                6,
+                7
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                16,
+                16
+              ]
+            ],
+            "vertices": [
+              4,
+              5,
+              6,
+              7,
+              16
+            ]
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-004",
+          "rule_id": "NON_MANIFOLD_EDGES",
+          "rule_name": "Non-manifold edges",
+          "category": "topology",
+          "severity": "HIGH",
+          "summary": "3 edges are shared by more than two faces.",
+          "technical_explanation": "Non-manifold edges do not describe a clean solid boundary and commonly fail in printing and CAD handoff.",
+          "plain_language_explanation": "Too many surfaces meet at the same edge, so the model does not describe one clean solid.",
+          "workflow_impact": "CAD tools, slicers, and game importers may choose the wrong surface, fail boolean operations, or generate broken collisions.",
+          "recommended_action": "Review the affected area and rebuild or separate the topology.",
+          "affected": {
+            "face_indices": [],
+            "edge_indices": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "vertex_indices": [
+              0,
+              1,
+              2
+            ],
+            "bounding_region": null
+          },
+          "occurrence_count": 3,
+          "confidence": 0.72,
+          "automatic_repair_available": false,
+          "repair_risk": null,
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [],
+            "edges": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "vertices": [
+              0,
+              1,
+              2
+            ]
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-005",
+          "rule_id": "DISCONNECTED_SHELLS",
+          "rule_name": "Disconnected shells",
+          "category": "topology",
+          "severity": "MODERATE",
+          "summary": "3 disconnected mesh shells were found.",
+          "technical_explanation": "Multiple shells may be intentional assemblies, but tiny or hidden shells often indicate stray geometry.",
+          "plain_language_explanation": "The file contains separate floating parts instead of one connected body.",
+          "workflow_impact": "This is fine for assemblies, but accidental fragments can print as debris, inflate polygon counts, or create unexpected collision pieces.",
+          "recommended_action": "Remove tiny debris automatically; approve merge, keep, or delete decisions for larger shells.",
+          "affected": {
+            "face_indices": [
+              11,
+              17,
+              12,
+              15,
+              18,
+              20,
+              19,
+              21,
+              16,
+              13,
+              14,
+              22,
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 13,
+          "confidence": 0.72,
+          "automatic_repair_available": false,
+          "repair_risk": null,
+          "supporting_measurements": {
+            "shell_count": 3
+          },
+          "viewer_highlight": {
+            "faces": [
+              11,
+              17,
+              12,
+              15,
+              18,
+              20,
+              19,
+              21,
+              16,
+              13,
+              14,
+              22,
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-006",
+          "rule_id": "TINY_COMPONENTS",
+          "rule_name": "Tiny disconnected components",
+          "category": "cleanup",
+          "severity": "MODERATE",
+          "summary": "1 very small disconnected shell candidates were found.",
+          "technical_explanation": "Tiny floating components can be accidental debris and may create failed prints or unexpected render artifacts.",
+          "plain_language_explanation": "Small loose fragments appear away from the main model.",
+          "workflow_impact": "They can waste print time, create specks in renders, and add invisible polygons to game assets.",
+          "recommended_action": "Safe to remove clearly insignificant fragments.",
+          "affected": {
+            "face_indices": [
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 1,
+          "confidence": 0.72,
+          "automatic_repair_available": true,
+          "repair_risk": "LOW_RISK",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-007",
+          "rule_id": "MISSING_NORMALS",
+          "rule_name": "Missing or invalid normals",
+          "category": "surface_quality",
+          "severity": "LOW",
+          "summary": "Some faces cannot produce valid normals.",
+          "technical_explanation": "Normals are derived from face winding. Collapsed or malformed faces produce invalid normals.",
+          "plain_language_explanation": "Some surface directions cannot be calculated cleanly.",
+          "workflow_impact": "Lighting may look inside-out, and exporters may guess the wrong side of a face.",
+          "recommended_action": "Regenerate normals after removing malformed faces.",
+          "affected": {
+            "face_indices": [
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 1,
+          "confidence": 0.95,
+          "automatic_repair_available": true,
+          "repair_risk": "SAFE",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": false
+        }
+      ],
+      "health_scores": {
+        "general_geometry_health": 39,
+        "print_readiness": 21,
+        "rendering_game_readiness": 38,
+        "cad_handoff_readiness": 25,
+        "selected_use_score": 25,
+        "methodology": "Start at 100 and subtract capped severity penalties. Intended-use scores increase penalty weight for issues known to affect that workflow."
+      },
+      "analysis_duration_ms": 5,
+      "created_at": "2026-07-21T18:59:19.758432+00:00",
+      "audit_trail": [
+        "2026-07-21T18:59:19.754357+00:00 Source checksum 677aadfa5b275fb2572c45081ac0bab740eb40e2849e339e1e8aeb9409791428.",
+        "2026-07-21T18:59:19.754357+00:00 Duplicate upload detected: False.",
+        "2026-07-21T18:59:19.758432+00:00 Parsed geometry.",
+        "2026-07-21T18:59:19.759362+00:00 Computed metrics.",
+        "2026-07-21T18:59:19.759362+00:00 Ran deterministic inspections.",
+        "2026-07-21T18:59:19.759362+00:00 Generated viewer payload."
+      ]
+    },
+    "clean-cube": {
+      "id": "demo-clean-cube-run",
+      "model_id": "demo-clean-cube-model",
+      "version_id": "demo-clean-cube-version",
+      "intended_use": "3d_printing",
+      "status": "COMPLETED",
+      "metrics": {
+        "filename": "clean-cube.stl",
+        "format": "STL",
+        "units": null,
+        "vertex_count": 8,
+        "edge_count": 18,
+        "face_count": 12,
+        "shell_count": 1,
+        "bounding_box": {
+          "min": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "max": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        },
+        "watertight": true,
+        "volume": 0.9999999999999999,
+        "surface_area": 6.0,
+        "geometry_hash": "815a62f859c776f71c7ce652fa9a933392cbdbc6521fb772c10aac7487f2c15e",
+        "estimated_file_complexity": "small",
+        "preview_simplified": false,
+        "parser": "native-stl",
+        "parser_version": "modeldoctor-native-0.1"
+      },
+      "issues": [],
+      "health_scores": {
+        "general_geometry_health": 100,
+        "print_readiness": 100,
+        "rendering_game_readiness": 100,
+        "cad_handoff_readiness": 100,
+        "selected_use_score": 100,
+        "methodology": "Start at 100 and subtract capped severity penalties. Intended-use scores increase penalty weight for issues known to affect that workflow."
+      },
+      "analysis_duration_ms": 1,
+      "created_at": "2026-07-21T18:59:19.802900+00:00",
+      "audit_trail": [
+        "2026-07-21T18:59:19.800888+00:00 Source checksum 2bff49d3e2d68fde13978d190b412268cdbfda8b79cc78e0f2142c1f7b521fc3.",
+        "2026-07-21T18:59:19.800888+00:00 Duplicate upload detected: False.",
+        "2026-07-21T18:59:19.802900+00:00 Parsed geometry.",
+        "2026-07-21T18:59:19.802900+00:00 Computed metrics.",
+        "2026-07-21T18:59:19.802900+00:00 Ran deterministic inspections.",
+        "2026-07-21T18:59:19.802900+00:00 Generated viewer payload."
+      ]
+    }
+  },
+  "viewers": {
+    "demo-multi-defect-run": {
+      "vertices": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.4,
+        1.4,
+        1.4,
+        1.46,
+        1.46,
+        1.4,
+        1.46,
+        1.4,
+        1.4,
+        1.4,
+        1.46,
+        1.4,
+        1.4,
+        1.4,
+        1.46,
+        1.46,
+        1.4,
+        1.46,
+        1.46,
+        1.46,
+        1.46,
+        1.4,
+        1.46,
+        1.46,
+        0.25,
+        0.25,
+        0.0
+      ],
+      "indices": [
+        0,
+        1,
+        2,
+        0,
+        3,
+        1,
+        0,
+        2,
+        4,
+        0,
+        4,
+        5,
+        2,
+        1,
+        6,
+        2,
+        6,
+        4,
+        1,
+        3,
+        7,
+        1,
+        7,
+        6,
+        3,
+        0,
+        5,
+        3,
+        5,
+        7,
+        0,
+        1,
+        2,
+        8,
+        9,
+        10,
+        8,
+        11,
+        9,
+        12,
+        13,
+        14,
+        12,
+        14,
+        15,
+        8,
+        10,
+        13,
+        8,
+        13,
+        12,
+        10,
+        9,
+        14,
+        10,
+        14,
+        13,
+        9,
+        11,
+        15,
+        9,
+        15,
+        14,
+        11,
+        8,
+        12,
+        11,
+        12,
+        15,
+        16,
+        16,
+        1,
+        0,
+        1,
+        2
+      ],
+      "vertex_colors": [],
+      "issues": [
+        {
+          "id": "issue-001",
+          "rule_id": "DUPLICATE_FACES",
+          "rule_name": "Duplicate faces",
+          "category": "topology",
+          "severity": "LOW",
+          "summary": "3 duplicate face entries were detected.",
+          "technical_explanation": "Duplicate faces can cause z-fighting and confuse slicers or renderers.",
+          "plain_language_explanation": "The same surface is drawn more than once in the same position.",
+          "workflow_impact": "In rendering it can flicker as z-fighting; in printing it can confuse slicing and create rough toolpaths.",
+          "recommended_action": "Safe to remove repeated faces.",
+          "affected": {
+            "face_indices": [
+              0,
+              10,
+              24
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 3,
+          "confidence": 0.95,
+          "automatic_repair_available": true,
+          "repair_risk": "SAFE",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              0,
+              10,
+              24
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": false
+        },
+        {
+          "id": "issue-002",
+          "rule_id": "DEGENERATE_TRIANGLES",
+          "rule_name": "Degenerate triangles",
+          "category": "surface_quality",
+          "severity": "LOW",
+          "summary": "1 zero-area or collapsed triangles were found.",
+          "technical_explanation": "Degenerate faces have no meaningful surface area and may break normals, volume and repair operations.",
+          "plain_language_explanation": "Some triangles have collapsed into a line or a point, so they no longer describe a real surface.",
+          "workflow_impact": "This can break normals, create black shading, and make slicers produce strange pauses or blobs.",
+          "recommended_action": "Safe to remove collapsed faces.",
+          "affected": {
+            "face_indices": [
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 1,
+          "confidence": 0.95,
+          "automatic_repair_available": true,
+          "repair_risk": "SAFE",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": false
+        },
+        {
+          "id": "issue-003",
+          "rule_id": "BOUNDARY_EDGES",
+          "rule_name": "Boundary edges / open holes",
+          "category": "watertightness",
+          "severity": "HIGH",
+          "summary": "5 boundary edges indicate open mesh regions.",
+          "technical_explanation": "A watertight solid should have every edge shared by exactly two faces. Boundary edges usually mean holes or open surfaces. MODOC only closes small planar loops automatically; complex openings require review.",
+          "plain_language_explanation": "The mesh has open edges, which usually means a hole or an unclosed surface.",
+          "workflow_impact": "For 3D printing, open holes can stop the slicer from knowing inside versus outside; that may create missing layers, messy infill, or nozzle dwell that leaves blobs.",
+          "recommended_action": "MODOC can close small simple holes automatically; complex openings need approval.",
+          "affected": {
+            "face_indices": [],
+            "edge_indices": [
+              [
+                4,
+                5
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                6,
+                7
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                16,
+                16
+              ]
+            ],
+            "vertex_indices": [
+              4,
+              5,
+              6,
+              7,
+              16
+            ],
+            "bounding_region": null
+          },
+          "occurrence_count": 5,
+          "confidence": 0.72,
+          "automatic_repair_available": true,
+          "repair_risk": "LOW_RISK",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [],
+            "edges": [
+              [
+                4,
+                5
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                6,
+                7
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                16,
+                16
+              ]
+            ],
+            "vertices": [
+              4,
+              5,
+              6,
+              7,
+              16
+            ]
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-004",
+          "rule_id": "NON_MANIFOLD_EDGES",
+          "rule_name": "Non-manifold edges",
+          "category": "topology",
+          "severity": "HIGH",
+          "summary": "3 edges are shared by more than two faces.",
+          "technical_explanation": "Non-manifold edges do not describe a clean solid boundary and commonly fail in printing and CAD handoff.",
+          "plain_language_explanation": "Too many surfaces meet at the same edge, so the model does not describe one clean solid.",
+          "workflow_impact": "CAD tools, slicers, and game importers may choose the wrong surface, fail boolean operations, or generate broken collisions.",
+          "recommended_action": "Review the affected area and rebuild or separate the topology.",
+          "affected": {
+            "face_indices": [],
+            "edge_indices": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "vertex_indices": [
+              0,
+              1,
+              2
+            ],
+            "bounding_region": null
+          },
+          "occurrence_count": 3,
+          "confidence": 0.72,
+          "automatic_repair_available": false,
+          "repair_risk": null,
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [],
+            "edges": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                2
+              ]
+            ],
+            "vertices": [
+              0,
+              1,
+              2
+            ]
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-005",
+          "rule_id": "DISCONNECTED_SHELLS",
+          "rule_name": "Disconnected shells",
+          "category": "topology",
+          "severity": "MODERATE",
+          "summary": "3 disconnected mesh shells were found.",
+          "technical_explanation": "Multiple shells may be intentional assemblies, but tiny or hidden shells often indicate stray geometry.",
+          "plain_language_explanation": "The file contains separate floating parts instead of one connected body.",
+          "workflow_impact": "This is fine for assemblies, but accidental fragments can print as debris, inflate polygon counts, or create unexpected collision pieces.",
+          "recommended_action": "Remove tiny debris automatically; approve merge, keep, or delete decisions for larger shells.",
+          "affected": {
+            "face_indices": [
+              11,
+              17,
+              12,
+              15,
+              18,
+              20,
+              19,
+              21,
+              16,
+              13,
+              14,
+              22,
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 13,
+          "confidence": 0.72,
+          "automatic_repair_available": false,
+          "repair_risk": null,
+          "supporting_measurements": {
+            "shell_count": 3
+          },
+          "viewer_highlight": {
+            "faces": [
+              11,
+              17,
+              12,
+              15,
+              18,
+              20,
+              19,
+              21,
+              16,
+              13,
+              14,
+              22,
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-006",
+          "rule_id": "TINY_COMPONENTS",
+          "rule_name": "Tiny disconnected components",
+          "category": "cleanup",
+          "severity": "MODERATE",
+          "summary": "1 very small disconnected shell candidates were found.",
+          "technical_explanation": "Tiny floating components can be accidental debris and may create failed prints or unexpected render artifacts.",
+          "plain_language_explanation": "Small loose fragments appear away from the main model.",
+          "workflow_impact": "They can waste print time, create specks in renders, and add invisible polygons to game assets.",
+          "recommended_action": "Safe to remove clearly insignificant fragments.",
+          "affected": {
+            "face_indices": [
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 1,
+          "confidence": 0.72,
+          "automatic_repair_available": true,
+          "repair_risk": "LOW_RISK",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": true
+        },
+        {
+          "id": "issue-007",
+          "rule_id": "MISSING_NORMALS",
+          "rule_name": "Missing or invalid normals",
+          "category": "surface_quality",
+          "severity": "LOW",
+          "summary": "Some faces cannot produce valid normals.",
+          "technical_explanation": "Normals are derived from face winding. Collapsed or malformed faces produce invalid normals.",
+          "plain_language_explanation": "Some surface directions cannot be calculated cleanly.",
+          "workflow_impact": "Lighting may look inside-out, and exporters may guess the wrong side of a face.",
+          "recommended_action": "Regenerate normals after removing malformed faces.",
+          "affected": {
+            "face_indices": [
+              23
+            ],
+            "edge_indices": [],
+            "vertex_indices": [],
+            "bounding_region": null
+          },
+          "occurrence_count": 1,
+          "confidence": 0.95,
+          "automatic_repair_available": true,
+          "repair_risk": "SAFE",
+          "supporting_measurements": {},
+          "viewer_highlight": {
+            "faces": [
+              23
+            ],
+            "edges": [],
+            "vertices": []
+          },
+          "requires_manual_review": false
+        }
+      ],
+      "metrics": {
+        "filename": "multi-defect-demo.stl",
+        "format": "STL",
+        "units": null,
+        "vertex_count": 17,
+        "edge_count": 37,
+        "face_count": 25,
+        "shell_count": 3,
+        "bounding_box": {
+          "min": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "max": {
+            "x": 1.46,
+            "y": 1.46,
+            "z": 1.46
+          },
+          "size": {
+            "x": 1.46,
+            "y": 1.46,
+            "z": 1.46
+          }
+        },
+        "watertight": false,
+        "volume": null,
+        "surface_area": 6.0216,
+        "geometry_hash": "9212711553d2a5f0b8f32bc35535779f4be207d78681c8a214f4beca93d27812",
+        "estimated_file_complexity": "small",
+        "preview_simplified": false,
+        "parser": "native-stl",
+        "parser_version": "modeldoctor-native-0.1"
+      }
+    },
+    "demo-clean-cube-run": {
+      "vertices": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "indices": [
+        0,
+        1,
+        2,
+        0,
+        3,
+        1,
+        4,
+        5,
+        6,
+        4,
+        6,
+        7,
+        0,
+        2,
+        5,
+        0,
+        5,
+        4,
+        2,
+        1,
+        6,
+        2,
+        6,
+        5,
+        1,
+        3,
+        7,
+        1,
+        7,
+        6,
+        3,
+        0,
+        4,
+        3,
+        4,
+        7
+      ],
+      "vertex_colors": [],
+      "issues": [],
+      "metrics": {
+        "filename": "clean-cube.stl",
+        "format": "STL",
+        "units": null,
+        "vertex_count": 8,
+        "edge_count": 18,
+        "face_count": 12,
+        "shell_count": 1,
+        "bounding_box": {
+          "min": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "max": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          },
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        },
+        "watertight": true,
+        "volume": 0.9999999999999999,
+        "surface_area": 6.0,
+        "geometry_hash": "815a62f859c776f71c7ce652fa9a933392cbdbc6521fb772c10aac7487f2c15e",
+        "estimated_file_complexity": "small",
+        "preview_simplified": false,
+        "parser": "native-stl",
+        "parser_version": "modeldoctor-native-0.1"
+      }
+    }
+  }
+}

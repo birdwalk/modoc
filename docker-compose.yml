@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+    environment:
+      MODELDOCTOR_STORAGE_DIR: /data
+      MODELDOCTOR_MAX_UPLOAD_MB: 75
+      MODELDOCTOR_MAX_TRIANGLES: 500000
+      MODELDOCTOR_MAX_REPAIR_TRIANGLES: 200000
+      MODELDOCTOR_ALLOW_STEP: "false"
+      MODELDOCTOR_PREVIEW_TRIANGLE_LIMIT: 50000
+    volumes:
+      - modeldoctor-data:/data
+    ports:
+      - "8000:8000"
+
+volumes:
+  modeldoctor-data:
