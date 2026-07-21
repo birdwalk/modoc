@@ -24,19 +24,27 @@ from .scoring import calculate_scores
 from .storage import Store
 
 app = FastAPI(title="MODOC API", version="0.1.0")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://birdwalk.github.io",
+    ],
     allow_credentials=False,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
+
 settings = get_settings()
 store = Store(settings)
 engine = LocalGeometryAnalysisEngine()
 repair_engine = GeometryRepairEngine()
-DEMO_MODELS = ensure_demo_models(Path(__file__).resolve().parents[3])
+DEMO_MODELS = module_path = Path(__file__).resolve()
+project_root = module_path.parents[3] if len(module_path.parents) > 3 else Path.cwd()
+DEMO_MODELS = ensure_demo_models(project_root)
 
 
 def get_store() -> Store:
